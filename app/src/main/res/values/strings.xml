@@ -3,4 +3,7 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="player">Universal Player</string>
+    <string name="recorder">Take Photo/Video</string>
+
 </resources>

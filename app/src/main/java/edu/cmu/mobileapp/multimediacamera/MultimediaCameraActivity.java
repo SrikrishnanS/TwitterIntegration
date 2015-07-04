@@ -1,5 +1,7 @@
 package edu.cmu.mobileapp.multimediacamera;
 
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -8,10 +10,29 @@ import android.view.MenuItem;
 
 public class MultimediaCameraActivity extends ActionBarActivity {
 
+    ActionBar.Tab playerTab, recorderTab;
+    Fragment playerFragment = new PlayerFragment();
+    Fragment recorderFragment = new RecorderFragment();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_multimedia_camera);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+
+        playerTab = actionBar.newTab();
+        recorderTab = actionBar.newTab();
+
+        playerTab.setText(R.string.player);
+        recorderTab.setText(R.string.recorder);
+
+        playerTab.setTabListener(new TabClickListener(playerFragment));
+        recorderTab.setTabListener(new TabClickListener(recorderFragment));
+
+        actionBar.addTab(playerTab);
+        actionBar.addTab(recorderTab);
     }
 
     @Override
