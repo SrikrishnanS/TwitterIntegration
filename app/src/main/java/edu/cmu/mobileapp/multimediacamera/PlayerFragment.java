@@ -9,8 +9,8 @@ import android.widget.GridView;
 
 import java.util.List;
 
-import edu.cmu.mobileapp.model.MediaFile;
-import edu.cmu.mobileapp.util.MediaUtils;
+import edu.cmu.mobileapp.model.GalleryFile;
+import edu.cmu.mobileapp.util.GalleryUtils;
 
 /**
  * Created by srikrishnan_suresh on 03-07-2015.
@@ -23,7 +23,7 @@ public class PlayerFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.player_layout, container, false);
 
-        List<MediaFile> files = MediaUtils.getMediaFiles(getActivity().getContentResolver());
+        List<GalleryFile> files = GalleryUtils.getGalleryFiles(getActivity());
 
         gridView = (GridView) rootView.findViewById(R.id.gridView);
 
