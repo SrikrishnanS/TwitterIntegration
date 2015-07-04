@@ -35,7 +35,7 @@ public class GalleryUtils {
                 columns,
                 selection,
                 null,
-                MediaStore.Files.FileColumns.DATE_ADDED + " DESC"
+                MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC"
         );
 
         int count = cursor.getCount();
@@ -46,7 +46,7 @@ public class GalleryUtils {
         for (int i = 0; i < count; i++) {
             cursor.moveToPosition(i);
             filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Files.FileColumns.DATA));
-            timeTaken = DateUtils.getDate(cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_MODIFIED)));
+            timeTaken = DateUtils.getDate(cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.DATE_MODIFIED))*1000);
             type = cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Files.FileColumns.MEDIA_TYPE));
             galleryList.add(new GalleryFile(filePath, timeTaken, type));
         }
