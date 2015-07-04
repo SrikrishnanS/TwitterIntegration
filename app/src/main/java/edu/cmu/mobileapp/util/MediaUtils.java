@@ -1,16 +1,24 @@
 package edu.cmu.mobileapp.util;
 
 import android.content.ContentResolver;
-import android.content.ContextWrapper;
 import android.database.Cursor;
 import android.provider.MediaStore;
 import android.util.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by srikrishnan_suresh on 04-07-2015.
  */
 public class MediaUtils {
-    public static String[] getImageFiles(ContentResolver resolver) {
+    public static List<String> getMediaFiles(ContentResolver resolver) {
+        List<String> mediaList = new ArrayList<String>(getImageFiles(resolver));
+        mediaList.addAll(getVideoFiles(resolver));
+        return mediaList;
+    }
+
+    public static List<String> getImageFiles(ContentResolver resolver) {
         final String[] columns = { MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID };
         final String orderBy = MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC";
         //Stores all the images from the gallery in Cursor
@@ -21,16 +29,17 @@ public class MediaUtils {
         int count = cursor.getCount();
 
         //Create an array to store path to all the images
-        String[] imageFiles = new String[count];
+        List<String> imageFiles = new ArrayList<String>();
 
         for (int i = 0; i < count; i++) {
             cursor.moveToPosition(i);
-            imageFiles[i]= cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            imageFiles.add(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)));
         }
+
         return imageFiles;
     }
 
-    public static String[] getVideoFiles(ContentResolver resolver) {
+    public static List<String> getVideoFiles(ContentResolver resolver) {
         final String[] columns = { MediaStore.Video.Media.DATA, MediaStore.Images.Media._ID };
         final String orderBy = MediaStore.Video.VideoColumns.DATE_TAKEN + " DESC";
 
@@ -39,11 +48,11 @@ public class MediaUtils {
                 null, orderBy);
         int count = cursor.getCount();
 
-        String[] videoFiles = new String[count];
+        List<String> videoFiles = new ArrayList<String>();
 
         for (int i = 0; i < count; i++) {
             cursor.moveToPosition(i);
-            videoFiles[i]= cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            videoFiles.add(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)));
         }
         return videoFiles;
     }
