@@ -54,7 +54,7 @@ public class GridItemAdapter extends BaseAdapter{
 
         ImageView image = (ImageView) view.findViewById(R.id.image);
         TextView textView = (TextView) view.findViewById(R.id.date);
-
+        ImageView imageView = (ImageView) view.findViewById(R.id.imagePlayIcon);
 
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 8;
@@ -62,18 +62,19 @@ public class GridItemAdapter extends BaseAdapter{
         String filePath = fileList.get(position).getFilePath();
         String dateTaken = fileList.get(position).getDateTaken();
         Long type = fileList.get(position).getType();
-        String fileType = "";
+
         Bitmap bitmap = null;
         if(type == MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE) {
             bitmap = BitmapFactory.decodeFile(filePath, options);
-            fileType = "Photo";
+            imageView.setVisibility(View.INVISIBLE);
         }
         else if(type == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO) {
             bitmap = ThumbnailUtils.createVideoThumbnail(filePath, 0);
-            fileType = "Video";
+            imageView.setImageResource(R.drawable.ic_play);
+            imageView.setVisibility(View.VISIBLE);
         }
         image.setImageBitmap(bitmap);
-        textView.setText(fileType + " on " + dateTaken);
+        textView.setText(dateTaken);
         return view;
     }
 }
