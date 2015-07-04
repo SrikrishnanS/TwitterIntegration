@@ -6,9 +6,8 @@
         android:id="@+id/gridView"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:columnWidth="0dp"
-        android:verticalSpacing="0dp"
-        android:horizontalSpacing="0dp"
+        android:columnWidth="90dp"
+        android:verticalSpacing="3dp"
         android:numColumns="2"
         android:stretchMode="columnWidth" />
 </RelativeLayout>
