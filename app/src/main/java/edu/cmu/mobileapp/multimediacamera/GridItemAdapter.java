@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ThumbnailUtils;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,9 +58,16 @@ public class GridItemAdapter extends BaseAdapter{
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 8;
 
-        Bitmap bmp = BitmapFactory.decodeFile(fileList.get(position).getFilePath(),options);
-        image.setImageBitmap(bmp);
-        textView.setText(fileList.get(position).getDateTaken());
+        String filePath = fileList.get(position).getFilePath();
+        String dateTaken = fileList.get(position).getDateTaken();
+        Long type = fileList.get(position).getType();
+        Bitmap bitmap = null;
+        if(type == MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE)
+            bitmap = BitmapFactory.decodeFile(filePath, options);
+        else if(type == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)
+            bitmap = ThumbnailUtils.createVideoThumbnail(filePath, 0);
+        image.setImageBitmap(bitmap);
+        textView.setText(dateTaken);
         return view;
     }
 }
