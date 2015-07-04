@@ -9,6 +9,7 @@ import android.widget.GridView;
 
 import java.util.List;
 
+import edu.cmu.mobileapp.model.MediaFile;
 import edu.cmu.mobileapp.util.MediaUtils;
 
 /**
@@ -22,8 +23,7 @@ public class PlayerFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.player_layout, container, false);
 
-        //get the image and video files absolute path
-        List<String> files = MediaUtils.getMediaFiles(getActivity().getContentResolver());
+        List<MediaFile> files = MediaUtils.getMediaFiles(getActivity().getContentResolver());
 
         gridView = (GridView) rootView.findViewById(R.id.gridView);
 

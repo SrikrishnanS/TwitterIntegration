@@ -8,38 +8,43 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
+import edu.cmu.mobileapp.model.MediaFile;
+
 /**
  * Created by srikrishnan_suresh on 04-07-2015.
  */
 public class MediaUtils {
-    public static List<String> getMediaFiles(ContentResolver resolver) {
-        List<String> mediaList = new ArrayList<String>(getImageFiles(resolver));
-        mediaList.addAll(getVideoFiles(resolver));
+    public static List<MediaFile> getMediaFiles(ContentResolver resolver) {
+        List<MediaFile> mediaList = new ArrayList<MediaFile>(getImageFiles(resolver));
+        //mediaList.addAll(getVideoFiles(resolver));
         return mediaList;
     }
 
-    public static List<String> getImageFiles(ContentResolver resolver) {
-        final String[] columns = { MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID };
+    public static List<MediaFile> getImageFiles(ContentResolver resolver) {
+        final String[] columns = { MediaStore.Images.Media.DATA, MediaStore.Images.Media._ID, MediaStore.Images.Media.DATE_TAKEN };
         final String orderBy = MediaStore.Images.ImageColumns.DATE_TAKEN + " DESC";
-        //Stores all the images from the gallery in Cursor
+
         Cursor cursor = resolver.query(
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI, columns, null,
                 null, orderBy);
-        //Total number of images
+
         int count = cursor.getCount();
 
-        //Create an array to store path to all the images
-        List<String> imageFiles = new ArrayList<String>();
 
+        List<MediaFile> imageFiles = new ArrayList<MediaFile>();
+
+        String filePath, timeTaken;
         for (int i = 0; i < count; i++) {
             cursor.moveToPosition(i);
-            imageFiles.add(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)));
+            filePath = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+            timeTaken = DateUtils.getDate(cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATE_TAKEN)));
+            imageFiles.add(new MediaFile(filePath, timeTaken));
         }
 
         return imageFiles;
     }
 
-    public static List<String> getVideoFiles(ContentResolver resolver) {
+   /* public static List<String> getVideoFiles(ContentResolver resolver) {
         final String[] columns = { MediaStore.Video.Media.DATA, MediaStore.Images.Media._ID };
         final String orderBy = MediaStore.Video.VideoColumns.DATE_TAKEN + " DESC";
 
@@ -55,5 +60,5 @@ public class MediaUtils {
             videoFiles.add(cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA)));
         }
         return videoFiles;
-    }
+    }*/
 }

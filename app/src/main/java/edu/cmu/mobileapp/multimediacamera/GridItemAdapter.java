@@ -13,16 +13,18 @@ import android.widget.TextView;
 
 import java.util.List;
 
+import edu.cmu.mobileapp.model.MediaFile;
+
 /**
  * Created by srikrishnan_suresh on 04-07-2015.
  */
 public class GridItemAdapter extends BaseAdapter{
     private Activity activity;
-    private List<String> fileList;
+    private List<MediaFile> fileList;
 
     private static LayoutInflater inflater = null;
 
-    public GridItemAdapter(Activity activity, List<String> fileList) {
+    public GridItemAdapter(Activity activity, List<MediaFile> fileList) {
         this.activity = activity;
         this.fileList = fileList;
         inflater = (LayoutInflater) activity
@@ -47,13 +49,16 @@ public class GridItemAdapter extends BaseAdapter{
         View view = convertView;
         if (convertView == null)
             view = inflater.inflate(R.layout.grid_item_layout, null);
+
         ImageView image = (ImageView) view.findViewById(R.id.image);
+        TextView textView = (TextView) view.findViewById(R.id.date);
 
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 8;
 
-        Bitmap bmp = BitmapFactory.decodeFile(fileList.get(position),options);
+        Bitmap bmp = BitmapFactory.decodeFile(fileList.get(position).getFilePath(),options);
         image.setImageBitmap(bmp);
+        textView.setText(fileList.get(position).getDateCreated());
         return view;
     }
 }
