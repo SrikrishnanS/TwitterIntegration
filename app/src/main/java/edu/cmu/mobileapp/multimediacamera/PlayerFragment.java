@@ -1,5 +1,6 @@
 package edu.cmu.mobileapp.multimediacamera;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -22,12 +23,14 @@ public class PlayerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.player_layout, container, false);
+        Activity activity = getActivity();
 
-        List<GalleryFile> files = GalleryUtils.getGalleryFiles(getActivity());
+        List<GalleryFile> files = GalleryUtils.getGalleryFiles(activity);
 
         gridView = (GridView) rootView.findViewById(R.id.gridView);
-
         gridView.setAdapter(new GridItemAdapter(getActivity(), files));
+
+        gridView.setOnItemClickListener(new GalleryItemClickListener(activity, files));
         return rootView;
     }
 
