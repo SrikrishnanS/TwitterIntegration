@@ -27,8 +27,9 @@ public class GalleryItemClickListener implements OnItemClickListener {
     public void onItemClick(AdapterView<?> parent, View view,
                             int position, long id) {
 
-        Intent i = new Intent(activity.getApplicationContext(), FullViewImage.class);
+        Intent i = new Intent(activity.getApplicationContext(), MediaFullView.class);
         i.putExtra("filePath",files.get(position).getFilePath());
+        i.putExtra("mediaType",files.get(position).getType());
         activity.startActivity(i);
     }
 }
