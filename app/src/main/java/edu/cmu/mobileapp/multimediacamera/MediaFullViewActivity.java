@@ -14,7 +14,7 @@ import android.widget.VideoView;
 /**
  * Created by srikrishnan_suresh on 04-07-2015.
  */
-public class MediaFullView extends Activity {
+public class MediaFullViewActivity extends Activity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

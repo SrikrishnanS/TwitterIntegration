@@ -28,14 +28,14 @@ public class GalleryUtils {
                 + " OR "
                 + MediaStore.Files.FileColumns.MEDIA_TYPE + "="
                 + MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
-        final String orderBy = MediaStore.Files.FileColumns.DATE_MODIFIED;
+        final String orderBy = MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC";
         Uri queryUri = MediaStore.Files.getContentUri("external");
 
         Cursor cursor = activity.managedQuery(queryUri,
                 columns,
                 selection,
                 null,
-                MediaStore.Files.FileColumns.DATE_MODIFIED + " DESC"
+                orderBy
         );
 
         int count = cursor.getCount();
