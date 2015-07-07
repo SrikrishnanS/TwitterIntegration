@@ -27,7 +27,7 @@
         <ImageView
             android:id="@+id/imagePlayIcon"
             android:layout_centerInParent="true"
-            android:layout_width="75dp"
-            android:layout_height="75dp"/>
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
     </RelativeLayout>
 </FrameLayout>
