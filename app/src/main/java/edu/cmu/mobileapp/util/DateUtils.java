@@ -12,4 +12,10 @@ public class DateUtils {
         SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
         return formatter.format(date);
     }
+
+    public static String getDateTime(long timestamp) {
+        Date date = new Date(timestamp);
+        SimpleDateFormat formatter = new SimpleDateFormat("MMddyyyy_HHmmss");
+        return formatter.format(date);
+    }
 }
