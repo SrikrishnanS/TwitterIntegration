@@ -7,5 +7,7 @@
     <string name="recorder">Take Photo/Video</string>
     <string name="take_photo">Take Photo</string>
     <string name="take_video">Record Video</string>
+    <string name="record">Record</string>
+    <string name="stop">Stop</string>
     <string name="picture">Snap</string>
 </resources>

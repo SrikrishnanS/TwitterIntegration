@@ -31,12 +31,14 @@ public class RecorderFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.recorder_layout, container, false);
 
         Button takePhoto = (Button) rootView.findViewById(R.id.photo);
+        Button takeVideo = (Button) rootView.findViewById(R.id.video);
         previewImage = (ImageView) rootView.findViewById(R.id.preview_image);
         Button savePhoto = (Button) rootView.findViewById(R.id.save_button);
         discardPhoto = (Button) rootView.findViewById(R.id.discard_image);
 
         savePhoto.setOnClickListener(new SaveMediaClickListener(getActivity()));
         takePhoto.setOnClickListener(new TakePhotoButtonListener(getActivity(),this));
+        takeVideo.setOnClickListener(new TakeVideoButtonListener(getActivity(),this));
         return rootView;
     }
 
