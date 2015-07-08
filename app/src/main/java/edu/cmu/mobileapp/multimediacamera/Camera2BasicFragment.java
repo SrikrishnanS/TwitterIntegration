@@ -27,6 +27,7 @@ import android.app.Fragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
@@ -233,6 +234,7 @@ public class Camera2BasicFragment extends Fragment implements View.OnClickListen
 
         @Override
         public void onImageAvailable(ImageReader reader) {
+
             mBackgroundHandler.post(new ImageSaver(reader.acquireNextImage(), mFile));
         }
 
@@ -456,11 +458,10 @@ public class Camera2BasicFragment extends Fragment implements View.OnClickListen
         CameraManager manager = (CameraManager) activity.getSystemService(Context.CAMERA_SERVICE);
 
         try {
-            Log.i("managerSizee>>>>>>>>>",manager.getCameraIdList().length+"");
             for (String cameraId : manager.getCameraIdList()) {
                 CameraCharacteristics characteristics
                         = manager.getCameraCharacteristics(cameraId);
-                Log.i("camera>>>>>>>>>",cameraId);
+
                 // We don't use a front facing camera.
                 if (characteristics.get(CameraCharacteristics.LENS_FACING)
                         == CameraCharacteristics.LENS_FACING_FRONT) {
@@ -745,6 +746,11 @@ public class Camera2BasicFragment extends Fragment implements View.OnClickListen
                                                TotalCaptureResult result) {
                     showToast("Saved: " + mFile);
                     unlockFocus();
+
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("imagePath",mFile.getAbsolutePath());
+                    activity.setResult(Activity.RESULT_OK,returnIntent);
+                    activity.finish();
                 }
             };
 
