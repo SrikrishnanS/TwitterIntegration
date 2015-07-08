@@ -18,4 +18,10 @@ public class DateUtils {
         SimpleDateFormat formatter = new SimpleDateFormat("MMddyyyy_HHmmss");
         return formatter.format(date);
     }
+
+    public static String getCurrentFullDate(long timestamp) {
+        Date date = new Date(timestamp);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+        return formatter.format(date);
+    }
 }
