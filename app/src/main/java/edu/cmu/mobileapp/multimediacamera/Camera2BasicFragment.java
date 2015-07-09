@@ -413,15 +413,6 @@ public class Camera2BasicFragment extends Fragment implements View.OnClickListen
         String fileName = "IMG_" + DateUtils.getDateTime(new Date().getTime()) + ".jpg";
         mFile = new File(myDir, fileName);
 
-        ContentValues values = new ContentValues();
-
-        Long time = System.currentTimeMillis()/1000;
-        values.put(MediaStore.Files.FileColumns.DATE_ADDED, time);
-        values.put(MediaStore.Files.FileColumns.DATE_MODIFIED, time);
-        values.put(MediaStore.Files.FileColumns.MIME_TYPE, "image/jpeg");
-        values.put(MediaStore.Files.FileColumns.DATA, mFile.getAbsolutePath());
-        this.getActivity().getApplicationContext().getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
     }
 
     @Override

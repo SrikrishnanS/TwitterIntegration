@@ -548,18 +548,8 @@ public class Camera2VideoFragment extends Fragment implements View.OnClickListen
                 myDir.mkdirs();
 
             String fileName = "MOV_" + DateUtils.getDateTime(new Date().getTime()) + ".mp4";
-
-            Long time = System.currentTimeMillis()/1000;
             mFile = new File(myDir, fileName);
 
-            ContentValues values = new ContentValues();
-
-            values.put(MediaStore.Files.FileColumns.DATE_ADDED, time);
-            values.put(MediaStore.Files.FileColumns.DATE_MODIFIED, time);
-            values.put(MediaStore.Files.FileColumns.MEDIA_TYPE, MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO);
-            values.put(MediaStore.Files.FileColumns.DATA, mFile.getAbsolutePath());
-
-            getActivity().getContentResolver().insert(MediaStore.Files.getContentUri("external"), values);
         }
         return mFile;
     }
