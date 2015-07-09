@@ -12,15 +12,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
-
-import java.io.File;
 
 /**
  * Created by srikrishnan_suresh on 03-07-2015.
  */
 public class RecorderFragment extends Fragment {
-    private static final int CHECK_VALUE = 7;
+    private static final int IMAGE_CHECK_VALUE = 7;
+    private static final int VIDEO_CHECK_VALUE = 9;
     private ImageView previewImage;
     private String filePath;
     private Button discardPhoto;
@@ -46,13 +44,21 @@ public class RecorderFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case(CHECK_VALUE):
+            case(IMAGE_CHECK_VALUE):
                 if(resultCode == Activity.RESULT_OK){
                     filePath = data.getStringExtra("imagePath");
                     discardPhoto.setOnClickListener(new DiscardMediaClickListener(getActivity(), previewImage, filePath));
                     previewImage.setVisibility(View.VISIBLE);
                     Bitmap myBitmap = BitmapFactory.decodeFile(filePath);
                     previewImage.setImageBitmap(myBitmap);
+                }
+                break;
+            case(VIDEO_CHECK_VALUE):
+                if(resultCode == Activity.RESULT_OK){
+                    filePath = data.getStringExtra("videoPath");
+                    discardPhoto.setOnClickListener(new DiscardMediaClickListener(getActivity(), previewImage, filePath));
+                    previewImage.setVisibility(View.VISIBLE);
+                    Log.i("msg",filePath);
                 }
         }
     }

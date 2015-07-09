@@ -27,6 +27,7 @@ import android.hardware.camera2.CaptureRequest;
 import android.hardware.camera2.params.StreamConfigurationMap;
 import android.media.MediaRecorder;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.MediaStore;
@@ -47,9 +48,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+
+import edu.cmu.mobileapp.util.DateUtils;
 
 
 public class Camera2VideoFragment extends Fragment implements View.OnClickListener {
@@ -537,29 +541,23 @@ public class Camera2VideoFragment extends Fragment implements View.OnClickListen
             cursor.moveToPosition(1);
             String dataIndex = MediaStore.Files.FileColumns.DATA;
             int filePathColumn = cursor.getColumnIndexOrThrow(dataIndex);
-            String filePath = cursor.getString(filePathColumn);
 
-            //showToast(filePath);
+            String root = Environment.getExternalStorageDirectory().toString();
+            File myDir = new File(root + "/CameraApp");
+            if(!myDir.exists())
+                myDir.mkdirs();
 
-            int substrInt = filePath.lastIndexOf("/");
-            String actualLocation = "";
-            if(substrInt > 0) {
-                actualLocation = filePath.substring(0,substrInt+1);
-            }
-            //showToast(actualLocation);
+            String fileName = "MOV_" + DateUtils.getDateTime(new Date().getTime()) + ".mp4";
 
-            //TODO - as per question name must be saved and only after preview
-            Time time = new Time();
-            String currentTime = Long.toString(System.currentTimeMillis());
-            String fileName = "MOV"+currentTime+".mp4";
-            mFile = new File(actualLocation, fileName);
+            Long time = System.currentTimeMillis()/1000;
+            mFile = new File(myDir, fileName);
 
             ContentValues values = new ContentValues();
 
-            values.put(MediaStore.Files.FileColumns.DATE_ADDED, currentTime);
-            values.put(MediaStore.Files.FileColumns.DATE_MODIFIED, currentTime);
+            values.put(MediaStore.Files.FileColumns.DATE_ADDED, time);
+            values.put(MediaStore.Files.FileColumns.DATE_MODIFIED, time);
             values.put(MediaStore.Files.FileColumns.MEDIA_TYPE, MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO);
-            values.put(MediaStore.Files.FileColumns.DATA, actualLocation + fileName);
+            values.put(MediaStore.Files.FileColumns.DATA, mFile.getAbsolutePath());
 
             getActivity().getContentResolver().insert(MediaStore.Files.getContentUri("external"), values);
         }
@@ -583,24 +581,22 @@ public class Camera2VideoFragment extends Fragment implements View.OnClickListen
     }
 
     private void stopRecordingVideo() {
-        // UI
+
         mIsRecordingVideo = false;
         mButtonVideo.setText(R.string.record);
-        // Stop recording
+
         mMediaRecorder.stop();
         mMediaRecorder.reset();
-        File videoFile = null;
+        File file = null;
         Activity activity = getActivity();
         if (null != activity) {
-            videoFile = getVideoFile(activity);
-            Toast.makeText(activity, "Video saved: " + videoFile,
+            file = getVideoFile(activity);
+            Toast.makeText(activity, "Video Captured",
                     Toast.LENGTH_SHORT).show();
         }
-        //TODO
-        //startPreview();
 
         Intent resultIntent = new Intent();
-        resultIntent.putExtra("resultFilePath",videoFile.getAbsolutePath());
+        resultIntent.putExtra("videoPath", file.getAbsolutePath());
         activity.setResult(Activity.RESULT_OK,resultIntent);
         activity.finish();
     }

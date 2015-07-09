@@ -13,7 +13,7 @@ public class TakeVideoButtonListener implements View.OnClickListener{
     private Activity activity;
     private Fragment fragment;
 
-    private static final int CHECK_VALUE = 7;
+    private static final int VIDEO_CHECK_VALUE = 9;
     public TakeVideoButtonListener(Activity activity, Fragment fragment) {
         this.activity = activity;
         this.fragment = fragment;
@@ -22,6 +22,6 @@ public class TakeVideoButtonListener implements View.OnClickListener{
     @Override
     public void onClick(View v) {
         Intent takeVideoIntent = new Intent(activity.getApplicationContext(), VideoActivity.class);
-        fragment.startActivityForResult(takeVideoIntent, CHECK_VALUE);
+        fragment.startActivityForResult(takeVideoIntent, VIDEO_CHECK_VALUE);
     }
 }
