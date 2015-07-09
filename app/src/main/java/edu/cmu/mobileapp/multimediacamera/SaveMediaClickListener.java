@@ -6,6 +6,7 @@ import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -38,5 +39,10 @@ public class SaveMediaClickListener implements View.OnClickListener{
         values.put(MediaStore.Files.FileColumns.MEDIA_TYPE, mediaType);
         activity.getContentResolver().insert(MediaStore.Files.getContentUri("external"), values);
         Toast.makeText(activity.getApplicationContext(), "File saved", Toast.LENGTH_SHORT).show();
+
+        Button saveButton = (Button)activity.findViewById(R.id.save_button);
+        Button discardButton = (Button)activity.findViewById(R.id.discard_image);
+        saveButton.setVisibility(View.INVISIBLE);
+        discardButton.setVisibility(View.INVISIBLE);
     }
 }

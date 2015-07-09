@@ -3,6 +3,7 @@ package edu.cmu.mobileapp.multimediacamera;
 import android.app.Activity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -43,5 +44,10 @@ public class DiscardMediaClickListener implements View.OnClickListener{
         }
         else
             Toast.makeText(activity.getApplicationContext(), "Unable to delete", Toast.LENGTH_SHORT).show();
+
+        Button saveButton = (Button)activity.findViewById(R.id.save_button);
+        Button discardButton = (Button)activity.findViewById(R.id.discard_image);
+        saveButton.setVisibility(View.INVISIBLE);
+        discardButton.setVisibility(View.INVISIBLE);
     }
 }

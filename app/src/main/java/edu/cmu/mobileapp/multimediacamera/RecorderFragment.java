@@ -47,6 +47,8 @@ public class RecorderFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        savePhoto.setVisibility(View.VISIBLE);
+        discardPhoto.setVisibility(View.VISIBLE);
         switch (requestCode) {
             case(IMAGE_CHECK_VALUE):
                 if(resultCode == Activity.RESULT_OK){
