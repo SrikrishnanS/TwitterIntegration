@@ -13,9 +13,10 @@ import android.view.MenuItem;
 
 public class MultimediaCameraActivity extends ActionBarActivity {
 
-    private ActionBar.Tab playerTab, recorderTab;
+    private ActionBar.Tab playerTab, recorderTab, timelineTab;
     private Fragment playerFragment = new PlayerFragment();
     private Fragment recorderFragment = new RecorderFragment();
+    private Fragment timelineFragment = new TimelineFragment();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,16 +28,19 @@ public class MultimediaCameraActivity extends ActionBarActivity {
 
         playerTab = actionBar.newTab();
         recorderTab = actionBar.newTab();
+        timelineTab = actionBar.newTab();
 
         playerTab.setText(R.string.player);
         recorderTab.setText(R.string.recorder);
+        timelineTab.setText(R.string.timeline);
 
         playerTab.setTabListener(new TabClickListener(playerFragment));
         recorderTab.setTabListener(new TabClickListener(recorderFragment));
+        timelineTab.setTabListener(new TabClickListener(timelineFragment));
 
         actionBar.addTab(playerTab);
         actionBar.addTab(recorderTab);
-
+        actionBar.addTab(timelineTab);
     }
 
     @Override
