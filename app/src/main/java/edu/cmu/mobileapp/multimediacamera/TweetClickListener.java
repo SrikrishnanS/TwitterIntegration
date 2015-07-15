@@ -28,8 +28,8 @@ public class TweetClickListener implements AdapterView.OnItemClickListener {
         Status status = statusList.get(position);
         String tweetURL = "https://twitter.com/" + status.getUser().getScreenName()+"/status/"+status.getId();
 
-        //Intent viewMediaIntent = new Intent(activity.getApplicationContext(), MediaFullViewActivity.class);
-        //viewMediaIntent.putExtra("filePath", files.get(position).getFilePath());
-        //activity.startActivity(viewMediaIntent);
+        Intent viewWebpage = new Intent(activity.getApplicationContext(), BrowserActivity.class);
+        viewWebpage.putExtra("tweetURL", tweetURL);
+        activity.startActivity(viewWebpage);
     }
 }

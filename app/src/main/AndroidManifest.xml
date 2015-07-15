@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".VideoActivity" >
         </activity>
+        <activity android:name=".BrowserActivity" >
+        </activity>
     </application>
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
