@@ -14,6 +14,9 @@ import java.util.List;
 
 import edu.cmu.mobileapp.model.GalleryFile;
 import edu.cmu.mobileapp.util.GalleryUtils;
+import edu.cmu.mobileapp.util.TwitterUtils;
+import twitter4j.Status;
+import twitter4j.TwitterException;
 
 /**
  * Created by srikrishnan_suresh on 03-07-2015.

@@ -19,6 +19,8 @@ public class TwitterUtils {
         ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
         configurationBuilder.setOAuthConsumerKey(AppConstants.TWITTER_CONSUMER_KEY);
         configurationBuilder.setOAuthConsumerSecret(AppConstants.TWITTER_CONSUMER_SECRET);
+        configurationBuilder.setOAuthAccessToken(AppConstants.TWITTER_ACCESS_TOKEN);
+        configurationBuilder.setOAuthAccessTokenSecret(AppConstants.TWITTER_ACCESS_TOKEN_SECRET);
         Configuration configuration = configurationBuilder.build();
         twitterFactory = new TwitterFactory(configuration);
         twitter = twitterFactory.getInstance();
