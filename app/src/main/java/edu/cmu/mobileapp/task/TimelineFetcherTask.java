@@ -5,7 +5,12 @@ import android.util.Log;
 
 import java.util.List;
 import android.app.Activity;
+import android.widget.ListView;
+
+import edu.cmu.mobileapp.multimediacamera.ListItemAdapter;
 import edu.cmu.mobileapp.multimediacamera.R;
+import edu.cmu.mobileapp.multimediacamera.TweetClickListener;
+import edu.cmu.mobileapp.util.DateUtils;
 import edu.cmu.mobileapp.util.TwitterUtils;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -18,6 +23,7 @@ import twitter4j.TwitterException;
 public class TimelineFetcherTask extends AsyncTask<String, Void, List<twitter4j.Status>> {
 
     private Activity activity;
+    private ListView listView;
     public TimelineFetcherTask(Activity activity) {
         this.activity = activity;
     }
@@ -30,11 +36,9 @@ public class TimelineFetcherTask extends AsyncTask<String, Void, List<twitter4j.
     @Override
     protected void onPostExecute(List<twitter4j.Status> statusList) {
         super.onPostExecute(statusList);
-        twitter4j.Status status = statusList.get(0);
-        Log.i("Text>>>",status.getText());
-        Log.i("Screen Name>>>",status.getUser().getScreenName());
-        Log.i("Name>>>",status.getUser().getName());
-
+        listView = (ListView) activity.findViewById(R.id.listView);
+        listView.setAdapter(new ListItemAdapter(activity, statusList));
+        listView.setOnItemClickListener(new TweetClickListener(activity, statusList));
     }
 
     @Override
