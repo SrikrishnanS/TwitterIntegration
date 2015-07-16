@@ -25,12 +25,13 @@
         android:layout_alignEnd="@+id/tweet_preview_image" />
 
     <ImageButton
-        android:layout_width="72px"
-        android:layout_height="72px"
         android:id="@+id/confirm_tweet_button"
         android:src="@drawable/ico_twitter"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="27dp"
         android:visibility="invisible"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:background="@null"/>
 </RelativeLayout>

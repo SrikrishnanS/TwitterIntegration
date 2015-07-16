@@ -8,11 +8,9 @@
         android:text="@string/take_photo"
         android:id="@+id/photo"
         android:layout_marginLeft="54dp"
-        android:layout_marginStart="54dp"
-        android:layout_marginTop="46dp"
+        android:layout_marginTop="24dp"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_toStartOf="@+id/tweet_button" />
 
     <Button
         android:layout_width="wrap_content"
@@ -30,19 +28,17 @@
         android:layout_height="300dp"
         android:id="@+id/preview_image"
         android:layout_gravity="center"
-        android:layout_above="@+id/save_button"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/preview_video" />
 
     <VideoView
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:id="@+id/preview_video"
         android:layout_gravity="center"
-        android:layout_above="@+id/save_button"
-        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
         android:layout_centerVertical="true"
-        android:visibility="invisible"/>
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -50,8 +46,8 @@
         android:text="SAVE"
         android:id="@+id/save_button"
         android:visibility="invisible"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/preview_image" />
+        android:layout_alignTop="@+id/discard_image"
+        android:layout_alignStart="@+id/photo" />
 
     <Button
         android:layout_width="wrap_content"
@@ -59,16 +55,18 @@
         android:text="DISCARD"
         android:id="@+id/discard_image"
         android:visibility="invisible"
-        android:layout_below="@+id/preview_image"
+        android:layout_marginBottom="23dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignEnd="@+id/preview_image" />
 
     <ImageButton
-        android:layout_width="64px"
-        android:layout_height="64px"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:id="@+id/tweet_button"
         android:src="@drawable/ico_twitter"
-        android:layout_marginBottom="7dp"
         android:visibility="invisible"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true" />
+        android:background="@null"
+        android:layout_marginEnd="16dp"
+        android:layout_alignTop="@+id/discard_image"
+        android:layout_toStartOf="@+id/discard_image" />
 </RelativeLayout>
