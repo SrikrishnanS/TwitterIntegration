@@ -74,7 +74,7 @@ public class TwitterAuthActivity extends Activity {
         protected void onPostExecute(String oauth_url) {
             if(oauth_url != null){
                 Log.e("URL", oauth_url);
-                auth_dialog = new Dialog(getApplicationContext());
+                auth_dialog = new Dialog(TwitterAuthActivity.this);
                 auth_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
                 auth_dialog.setContentView(R.layout.twitter_auth_dialog);
