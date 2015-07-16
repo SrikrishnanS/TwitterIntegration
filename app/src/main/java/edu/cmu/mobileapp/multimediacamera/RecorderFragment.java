@@ -44,7 +44,7 @@ public class RecorderFragment extends Fragment {
 
         takePhoto.setOnClickListener(new TakePhotoButtonListener(getActivity(),this));
         takeVideo.setOnClickListener(new TakeVideoButtonListener(getActivity(),this));
-        tweetButton.setOnClickListener(new TweetButtonClickListener(getActivity()));
+
         return rootView;
     }
 
@@ -62,6 +62,8 @@ public class RecorderFragment extends Fragment {
                     savePhoto.setOnClickListener(new SaveMediaClickListener(getActivity(), filePath,MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE));
                     discardPhoto.setOnClickListener(null);
                     discardPhoto.setOnClickListener(new DiscardMediaClickListener(getActivity(), previewImage, filePath));
+                    tweetButton.setOnClickListener(null);
+                    tweetButton.setOnClickListener(new TweetButtonClickListener(getActivity(),filePath));
                     previewVideo.setVisibility(View.INVISIBLE);
                     previewImage.setVisibility(View.VISIBLE);
                     Bitmap myBitmap = BitmapFactory.decodeFile(filePath);
@@ -75,6 +77,8 @@ public class RecorderFragment extends Fragment {
                     savePhoto.setOnClickListener(new SaveMediaClickListener(getActivity(), filePath, MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO));
                     discardPhoto.setOnClickListener(null);
                     discardPhoto.setOnClickListener(new DiscardMediaClickListener(getActivity(), previewVideo, filePath));
+                    tweetButton.setOnClickListener(null);
+                    tweetButton.setOnClickListener(new TweetButtonClickListener(getActivity(),filePath));
                     previewImage.setVisibility(View.INVISIBLE);
                     previewVideo.setVisibility(View.VISIBLE);
                     previewVideo.setVideoPath(filePath);

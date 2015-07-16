@@ -13,9 +13,11 @@ import edu.cmu.mobileapp.util.AppConstants;
 public class TweetButtonClickListener implements View.OnClickListener{
 
     private Activity activity;
+    private String filePath;
     private SharedPreferences preference;
-    public TweetButtonClickListener(Activity activity) {
+    public TweetButtonClickListener(Activity activity, String filePath) {
         this.activity = activity;
+        this.filePath = filePath;
     }
 
     @Override
@@ -27,6 +29,7 @@ public class TweetButtonClickListener implements View.OnClickListener{
         edit.commit();
 
         Intent twitterIntent = new Intent(activity.getApplicationContext(), TwitterAuthActivity.class);
+        twitterIntent.putExtra("filePath",filePath);
         activity.startActivity(twitterIntent);
 
     }

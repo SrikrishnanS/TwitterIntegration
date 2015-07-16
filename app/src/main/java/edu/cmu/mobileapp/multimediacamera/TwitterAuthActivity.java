@@ -2,21 +2,30 @@ package edu.cmu.mobileapp.multimediacamera;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.util.Date;
+
 import edu.cmu.mobileapp.util.AppConstants;
-import edu.cmu.mobileapp.util.TwitterUtils;
+import edu.cmu.mobileapp.util.DateUtils;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -35,19 +44,68 @@ public class TwitterAuthActivity extends Activity {
     Dialog auth_dialog;
     WebView web;
     SharedPreferences pref;
-    ProgressDialog progress;
     Bitmap bitmap;
+    String filePath;
+
+    private ImageView previewImage;
+    private EditText tweetMessage;
+    private ImageButton confirmTweetButton;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.twitter_auth_layout);
-        pref=getApplicationContext().getSharedPreferences("MyPref", 0);
+        pref=getApplicationContext().getSharedPreferences("Pref", 0);
         twitter = new TwitterFactory().getInstance();
         twitter.setOAuthConsumer(pref.getString("CONSUMER_KEY", AppConstants.TWITTER_CONSUMER_KEY), pref.getString("CONSUMER_SECRET", AppConstants.TWITTER_CONSUMER_SECRET));
 
+        initComponents();
+
         if(!isTwitterLoggedInAlready())
-            new TokenGetTask().execute();
+            getConfirmation();
+        else
+            showComponents();
+
+    }
+    private void initComponents() {
+        previewImage = (ImageView) findViewById(R.id.tweet_preview_image);
+        tweetMessage = (EditText) findViewById(R.id.tweet_message);
+        confirmTweetButton = (ImageButton) findViewById(R.id.confirm_tweet_button);
+
+        tweetMessage.setText("srikriss: " + android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL + ": " + Build.VERSION.RELEASE + ": " + DateUtils.getCurrentFullDate(new Date().getTime()));
+        Intent intent = getIntent();
+        filePath = intent.getStringExtra("filePath");
+        bitmap = BitmapFactory.decodeFile(filePath);
+        previewImage.setImageBitmap(bitmap);
+    }
+
+    private void showComponents(){
+        previewImage.setVisibility(View.VISIBLE);
+        tweetMessage.setVisibility(View.VISIBLE);
+        confirmTweetButton.setVisibility(View.VISIBLE);
+    }
+
+    private void getConfirmation() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(TwitterAuthActivity.this);
+        alertDialogBuilder.setTitle("Request Twitter Access");
+        alertDialogBuilder.setMessage("The App would like to access your Twitter Account");
+
+
+        alertDialogBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                new TokenGetTask().execute();
+            }
+        });
+        alertDialogBuilder.setNegativeButton("Don't Allow", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                dialog.cancel();
+                finish();
+            }
+
+        });
+
+        AlertDialog confirmDialog = alertDialogBuilder.create();
+        confirmDialog.show();
     }
     private boolean isTwitterLoggedInAlready() {
         // return twitter login status from Shared Preferences
@@ -63,7 +121,6 @@ public class TwitterAuthActivity extends Activity {
             try {
                 requestToken = twitter.getOAuthRequestToken();
                 oauth_url = requestToken.getAuthorizationURL();
-                Log.i("URL>>>>",oauth_url);
             } catch (TwitterException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -73,7 +130,6 @@ public class TwitterAuthActivity extends Activity {
         @Override
         protected void onPostExecute(String oauth_url) {
             if(oauth_url != null){
-                Log.e("URL", oauth_url);
                 auth_dialog = new Dialog(TwitterAuthActivity.this);
                 auth_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -101,8 +157,8 @@ public class TwitterAuthActivity extends Activity {
                             new AccessTokenTask().execute();
                         }else if(url.contains("denied")){
                             auth_dialog.dismiss();
-                            Toast.makeText(getApplicationContext(), "Sorry !, Permission Denied", Toast.LENGTH_SHORT).show();
-
+                            Toast.makeText(getApplicationContext(), "You need to login to Tweet", Toast.LENGTH_SHORT).show();
+                            finishActivity(2);
 
                         }
                     }
@@ -113,10 +169,7 @@ public class TwitterAuthActivity extends Activity {
 
 
             }else{
-
                 Toast.makeText(getApplicationContext(), "Sorry !, Network Error or Invalid Credentials", Toast.LENGTH_SHORT).show();
-
-
             }
         }
     }
@@ -127,11 +180,6 @@ public class TwitterAuthActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progress = new ProgressDialog(TwitterAuthActivity.this);
-            progress.setMessage("Fetching Data ...");
-            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            progress.setIndeterminate(true);
-            progress.show();
 
         }
 
@@ -140,8 +188,6 @@ public class TwitterAuthActivity extends Activity {
         protected Boolean doInBackground(String... args) {
 
             try {
-
-
                 accessToken = twitter.getOAuthAccessToken(requestToken, oauth_verifier);
                 SharedPreferences.Editor edit = pref.edit();
                 edit.putString("ACCESS_TOKEN", accessToken.getToken());
@@ -152,8 +198,6 @@ public class TwitterAuthActivity extends Activity {
                 edit.putString("IMAGE_URL", user.getOriginalProfileImageURL());
                 edit.putBoolean(AppConstants.PREF_KEY_TWITTER_LOGIN, true);
                 edit.commit();
-
-
             } catch (TwitterException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
@@ -166,16 +210,9 @@ public class TwitterAuthActivity extends Activity {
         @Override
         protected void onPostExecute(Boolean response) {
             if(response){
-               /* progress.hide();
-                Fragment profile = new ProfileFragment();
-                FragmentTransaction ft = getActivity().getFragmentManager().beginTransaction();
-                ft.replace(R.id.content_frame, profile);
-                ft.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
-                ft.addToBackStack(null);
-                ft.commit();*/
+                showComponents();
             }
         }
-
 
     }
 }

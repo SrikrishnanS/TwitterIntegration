@@ -10,22 +10,27 @@
         android:layout_gravity="center"
         android:layout_marginTop="59dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"/>
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/tweet_message"
+        android:text="tweet message"
+        android:visibility="invisible"
         android:layout_below="@+id/tweet_preview_image"
+        android:layout_marginTop="34dp"
         android:layout_alignStart="@+id/tweet_preview_image"
-        android:layout_alignEnd="@+id/tweet_preview_image"
-        android:text="tweet message" />
+        android:layout_alignEnd="@+id/tweet_preview_image" />
+
     <ImageButton
-        android:layout_width="64px"
-        android:layout_height="64px"
+        android:layout_width="72px"
+        android:layout_height="72px"
         android:id="@+id/confirm_tweet_button"
         android:src="@drawable/ico_twitter"
-        android:layout_marginBottom="75dp"
+        android:layout_marginBottom="27dp"
+        android:visibility="invisible"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>
