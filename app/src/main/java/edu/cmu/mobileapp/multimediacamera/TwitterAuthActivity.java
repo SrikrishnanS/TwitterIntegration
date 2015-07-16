@@ -127,7 +127,7 @@ public class TwitterAuthActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            progress = new ProgressDialog(getApplicationContext());
+            progress = new ProgressDialog(TwitterAuthActivity.this);
             progress.setMessage("Fetching Data ...");
             progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             progress.setIndeterminate(true);
