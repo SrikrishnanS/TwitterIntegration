@@ -49,16 +49,26 @@
         android:layout_height="wrap_content"
         android:text="SAVE"
         android:id="@+id/save_button"
+        android:visibility="invisible"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/photo"
-        android:visibility="invisible"/>
+        android:layout_alignStart="@+id/preview_image" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="DISCARD"
         android:id="@+id/discard_image"
-        android:layout_alignTop="@+id/save_button"
-        android:layout_alignEnd="@+id/video"
-        android:visibility="invisible"/>
+        android:visibility="invisible"
+        android:layout_below="@+id/preview_image"
+        android:layout_alignEnd="@+id/preview_image" />
+
+    <ImageButton
+        android:layout_width="64px"
+        android:layout_height="64px"
+        android:id="@+id/tweet_button"
+        android:src="@drawable/ico_twitter"
+        android:layout_marginBottom="7dp"
+        android:visibility="invisible"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

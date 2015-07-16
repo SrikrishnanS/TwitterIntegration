@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.VideoView;
 
@@ -26,6 +27,7 @@ public class RecorderFragment extends Fragment {
     private String filePath;
     private Button discardPhoto;
     private Button savePhoto;
+    private ImageButton tweetButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,9 +40,11 @@ public class RecorderFragment extends Fragment {
         previewVideo = (VideoView) rootView.findViewById(R.id.preview_video);
         savePhoto = (Button) rootView.findViewById(R.id.save_button);
         discardPhoto = (Button) rootView.findViewById(R.id.discard_image);
+        tweetButton = (ImageButton) rootView.findViewById(R.id.tweet_button);
 
         takePhoto.setOnClickListener(new TakePhotoButtonListener(getActivity(),this));
         takeVideo.setOnClickListener(new TakeVideoButtonListener(getActivity(),this));
+        tweetButton.setOnClickListener(new TweetButtonClickListener(getActivity()));
         return rootView;
     }
 
@@ -49,6 +53,7 @@ public class RecorderFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         savePhoto.setVisibility(View.VISIBLE);
         discardPhoto.setVisibility(View.VISIBLE);
+        tweetButton.setVisibility(View.VISIBLE);
         switch (requestCode) {
             case(IMAGE_CHECK_VALUE):
                 if(resultCode == Activity.RESULT_OK){

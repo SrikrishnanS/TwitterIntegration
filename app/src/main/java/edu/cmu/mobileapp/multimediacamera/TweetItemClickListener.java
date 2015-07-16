@@ -13,10 +13,10 @@ import twitter4j.Status;
 /**
  * Created by srikrishnan_suresh on 15-07-2015.
  */
-public class TweetClickListener implements AdapterView.OnItemClickListener {
+public class TweetItemClickListener implements AdapterView.OnItemClickListener {
     private Activity activity;
     private List<Status> statusList;
-    public TweetClickListener(Activity activity, List<Status> statusList) {
+    public TweetItemClickListener(Activity activity, List<Status> statusList) {
         this.activity = activity;
         this.statusList = statusList;
     }
