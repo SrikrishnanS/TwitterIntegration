@@ -15,7 +15,7 @@ public class TwitterUtils {
     private TwitterFactory twitterFactory = null;
     private Twitter twitter;
 
-    public TwitterUtils() {
+    private TwitterUtils() {
         ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
         configurationBuilder.setOAuthConsumerKey(AppConstants.TWITTER_CONSUMER_KEY);
         configurationBuilder.setOAuthConsumerSecret(AppConstants.TWITTER_CONSUMER_SECRET);
@@ -43,7 +43,7 @@ public class TwitterUtils {
     public RequestToken getRequestToken() {
         if (requestToken == null) {
             try {
-                requestToken = twitterFactory.getInstance().getOAuthRequestToken(AppConstants.TWITTER_CALLBACK_URL);
+                requestToken = twitter.getOAuthRequestToken(AppConstants.TWITTER_CALLBACK_URL);
             } catch (TwitterException e) {
                 e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
             }
@@ -51,7 +51,7 @@ public class TwitterUtils {
         return requestToken;
     }
 
-    static TwitterUtils instance = new TwitterUtils();
+    private static TwitterUtils instance = new TwitterUtils();
 
     public static TwitterUtils getInstance() {
         return instance;
