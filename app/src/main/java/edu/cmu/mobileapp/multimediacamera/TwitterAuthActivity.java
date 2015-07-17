@@ -46,6 +46,7 @@ public class TwitterAuthActivity extends Activity {
     SharedPreferences pref;
     Bitmap bitmap;
     String filePath;
+    String tweetStatus;
 
     private ImageView previewImage;
     private EditText tweetMessage;
@@ -72,7 +73,8 @@ public class TwitterAuthActivity extends Activity {
         tweetMessage = (EditText) findViewById(R.id.tweet_message);
         confirmTweetButton = (ImageButton) findViewById(R.id.confirm_tweet_button);
 
-        tweetMessage.setText("srikriss: " + android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL + ": " + Build.VERSION.RELEASE + ": " + DateUtils.getCurrentFullDate(new Date().getTime()));
+        tweetStatus = "srikriss: " + android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL + ": " + Build.VERSION.RELEASE + ": " + DateUtils.getCurrentFullDate(new Date().getTime());
+        tweetMessage.setText(tweetStatus);
         Intent intent = getIntent();
         filePath = intent.getStringExtra("filePath");
         bitmap = BitmapFactory.decodeFile(filePath);
@@ -83,6 +85,8 @@ public class TwitterAuthActivity extends Activity {
         previewImage.setVisibility(View.VISIBLE);
         tweetMessage.setVisibility(View.VISIBLE);
         confirmTweetButton.setVisibility(View.VISIBLE);
+        confirmTweetButton.setOnClickListener(null);
+        confirmTweetButton.setOnClickListener(new ConfirmTweetListener(this, tweetStatus, filePath));
     }
 
     private void getConfirmation() {
@@ -108,7 +112,6 @@ public class TwitterAuthActivity extends Activity {
         confirmDialog.show();
     }
     private boolean isTwitterLoggedInAlready() {
-        // return twitter login status from Shared Preferences
         return pref.getBoolean(AppConstants.PREF_KEY_TWITTER_LOGIN, false);
     }
 
@@ -165,11 +168,8 @@ public class TwitterAuthActivity extends Activity {
                 });
                 auth_dialog.show();
                 auth_dialog.setCancelable(true);
-
-
-
             }else{
-                Toast.makeText(getApplicationContext(), "Sorry !, Network Error or Invalid Credentials", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Unable to connect", Toast.LENGTH_SHORT).show();
             }
         }
     }
