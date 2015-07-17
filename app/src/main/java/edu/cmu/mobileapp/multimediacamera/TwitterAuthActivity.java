@@ -73,7 +73,7 @@ public class TwitterAuthActivity extends Activity {
         tweetMessage = (EditText) findViewById(R.id.tweet_message);
         confirmTweetButton = (ImageButton) findViewById(R.id.confirm_tweet_button);
 
-        tweetStatus = "srikriss: " + android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL + ": " + Build.VERSION.RELEASE + ": " + DateUtils.getCurrentFullDate(new Date().getTime());
+        tweetStatus = "@MobileApp4 srikriss: " + android.os.Build.MANUFACTURER + " " + android.os.Build.MODEL + ": " + Build.VERSION.RELEASE + ": " + DateUtils.getCurrentFullDate(new Date().getTime());
         tweetMessage.setText(tweetStatus);
         Intent intent = getIntent();
         filePath = intent.getStringExtra("filePath");
@@ -183,7 +183,6 @@ public class TwitterAuthActivity extends Activity {
 
         }
 
-
         @Override
         protected Boolean doInBackground(String... args) {
 
@@ -201,8 +200,6 @@ public class TwitterAuthActivity extends Activity {
             } catch (TwitterException e) {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
-
-
             }
 
             return true;

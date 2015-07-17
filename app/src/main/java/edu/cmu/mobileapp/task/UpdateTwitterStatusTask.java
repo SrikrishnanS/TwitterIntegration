@@ -1,6 +1,7 @@
 package edu.cmu.mobileapp.task;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -21,18 +22,23 @@ import twitter4j.conf.ConfigurationBuilder;
  */
 public class UpdateTwitterStatusTask extends AsyncTask<String, String, String> {
     private Activity activity;
-
+    private ProgressDialog progress;
     public UpdateTwitterStatusTask(Activity activity) {
         this.activity = activity;
     }
 
     @Override
     protected void onPreExecute() {
-        Toast.makeText(activity, "Tweeting, please wait.", Toast.LENGTH_SHORT).show();
+        progress = new ProgressDialog(activity);
+        progress.setMessage("Sending Tweet, Please Wait...");
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+        progress.show();
     }
 
     @Override
     protected void onPostExecute(String string) {
+        progress.hide();
         Toast.makeText(activity, "Tweet posted.", Toast.LENGTH_SHORT).show();
         activity.finish();
     }
