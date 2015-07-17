@@ -48,7 +48,7 @@ public class UpdateTwitterStatusTask extends AsyncTask<String, String, String> {
         String tweetStatus = params[0];
         String filePath = params[1];
         File file = new File(filePath);
-        StatusUpdate update = new StatusUpdate("@MobileApp4 "+tweetStatus);
+        StatusUpdate update = new StatusUpdate(tweetStatus);
         update.setMedia(file);
 
         ConfigurationBuilder builder = new ConfigurationBuilder();

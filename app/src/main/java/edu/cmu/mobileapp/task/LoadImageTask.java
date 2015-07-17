@@ -34,7 +34,7 @@ public class LoadImageTask extends AsyncTask<String, String, String> {
     protected void onPreExecute() {
         super.onPreExecute();
         progress = new ProgressDialog(activity);
-        progress.setMessage("Loading Tweets...");
+        progress.setMessage("Loading Media...");
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setIndeterminate(true);
         progress.show();

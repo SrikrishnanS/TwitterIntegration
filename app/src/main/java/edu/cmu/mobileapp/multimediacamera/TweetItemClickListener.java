@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 
 import java.util.List;
 
+import twitter4j.MediaEntity;
 import twitter4j.Status;
 
 /**
@@ -26,10 +27,13 @@ public class TweetItemClickListener implements AdapterView.OnItemClickListener {
                             int position, long id) {
 
         Status status = statusList.get(position);
-        String tweetURL = "https://twitter.com/" + status.getUser().getScreenName()+"/status/"+status.getId();
+        MediaEntity[] entities = status.getMediaEntities();
+        if(entities.length >0 ) {
+            String tweetURL = entities[0].getMediaURL();
 
-        Intent viewWebpage = new Intent(activity.getApplicationContext(), BrowserActivity.class);
-        viewWebpage.putExtra("tweetURL", tweetURL);
-        activity.startActivity(viewWebpage);
+            Intent viewWebpage = new Intent(activity.getApplicationContext(), BrowserActivity.class);
+            viewWebpage.putExtra("tweetURL", tweetURL);
+            activity.startActivity(viewWebpage);
+        }
     }
 }
