@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,13 +30,22 @@ public class TimelineFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.timeline_layout, container, false);
-        Activity activity = getActivity();
+        final Activity activity = getActivity();
 
+        final SwipeRefreshLayout pullToRefresh = (SwipeRefreshLayout) rootView.findViewById(R.id.pullToRefresh);
         listView = (ListView) rootView.findViewById(R.id.listView);
 
-        timelineFetcherTask = new TimelineFetcherTask(activity);
-        String twitterHandler = activity.getString(R.string.handler_name);
-        timelineFetcherTask.execute(twitterHandler);
+        final String twitterHandler = activity.getString(R.string.handler_name);
+
+        new TimelineFetcherTask(activity).execute(twitterHandler);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+
+            @Override
+            public void onRefresh() {
+                new TimelineFetcherTask(activity).execute(twitterHandler);
+                pullToRefresh.setRefreshing(false);
+            }
+        });
         return rootView;
     }
 
