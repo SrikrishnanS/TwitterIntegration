@@ -2,6 +2,7 @@ package edu.cmu.mobileapp.multimediacamera;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -117,7 +118,17 @@ public class TwitterAuthActivity extends Activity {
 
 
     private class TokenGetTask extends AsyncTask<String, String, String> {
+        private ProgressDialog progress;
 
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            progress = new ProgressDialog(TwitterAuthActivity.this);
+            progress.setMessage("Loading. Please Wait...");
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.setIndeterminate(true);
+            progress.show();
+        }
         @Override
         protected String doInBackground(String... args) {
 
@@ -132,6 +143,7 @@ public class TwitterAuthActivity extends Activity {
         }
         @Override
         protected void onPostExecute(String oauth_url) {
+            progress.hide();
             if(oauth_url != null){
                 auth_dialog = new Dialog(TwitterAuthActivity.this);
                 auth_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -175,12 +187,16 @@ public class TwitterAuthActivity extends Activity {
     }
 
     private class AccessTokenTask extends AsyncTask<String, String, Boolean> {
-
+        private ProgressDialog progress;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
+            progress = new ProgressDialog(TwitterAuthActivity.this);
+            progress.setMessage("Loading. Please Wait...");
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.setIndeterminate(true);
+            progress.show();
         }
 
         @Override
@@ -206,6 +222,7 @@ public class TwitterAuthActivity extends Activity {
         }
         @Override
         protected void onPostExecute(Boolean response) {
+            progress.hide();
             if(response){
                 showComponents();
             }
