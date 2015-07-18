@@ -67,6 +67,8 @@ public class UpdateTwitterStatusTask extends AsyncTask<String, String, String> {
             Log.i("response", response.toString());
         } catch (TwitterException e) {
             e.printStackTrace();
+            Log.i("Error Code", e.getErrorCode() + "");
+            Log.i("Error Message",e.getErrorMessage()+"");
         }
         return null;
     }
