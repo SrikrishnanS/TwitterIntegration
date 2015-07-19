@@ -15,9 +15,12 @@ public class TweetButtonClickListener implements View.OnClickListener{
     private Activity activity;
     private String filePath;
     private SharedPreferences preference;
-    public TweetButtonClickListener(Activity activity, String filePath) {
+    private long mediaType;
+
+    public TweetButtonClickListener(Activity activity, String filePath, long mediaType) {
         this.activity = activity;
         this.filePath = filePath;
+        this.mediaType = mediaType;
     }
 
     @Override
@@ -30,7 +33,9 @@ public class TweetButtonClickListener implements View.OnClickListener{
 
         Intent twitterIntent = new Intent(activity.getApplicationContext(), TwitterAuthActivity.class);
         twitterIntent.putExtra("filePath",filePath);
+        twitterIntent.putExtra("mediaType",mediaType);
         activity.startActivity(twitterIntent);
 
     }
 }
+

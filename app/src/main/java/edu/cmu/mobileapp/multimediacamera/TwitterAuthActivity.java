@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
@@ -21,7 +22,9 @@ import android.webkit.WebViewClient;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import java.util.Date;
 
@@ -47,9 +50,11 @@ public class TwitterAuthActivity extends Activity {
     SharedPreferences pref;
     Bitmap bitmap;
     String filePath;
+    long mediaType;
     String tweetStatus;
 
     private ImageView previewImage;
+    private VideoView previewVideo;
     private EditText tweetMessage;
     private ImageButton confirmTweetButton;
 
@@ -71,6 +76,7 @@ public class TwitterAuthActivity extends Activity {
     }
     private void initComponents() {
         previewImage = (ImageView) findViewById(R.id.tweet_preview_image);
+        previewVideo = (VideoView) findViewById(R.id.tweet_preview_video);
         tweetMessage = (EditText) findViewById(R.id.tweet_message);
         confirmTweetButton = (ImageButton) findViewById(R.id.confirm_tweet_button);
 
@@ -78,16 +84,36 @@ public class TwitterAuthActivity extends Activity {
         tweetMessage.setText(tweetStatus);
         Intent intent = getIntent();
         filePath = intent.getStringExtra("filePath");
-        bitmap = BitmapFactory.decodeFile(filePath);
-        previewImage.setImageBitmap(bitmap);
+        mediaType = intent.getLongExtra("mediaType",0);
+        if(mediaType== MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE) {
+            /*previewImage.setVisibility(View.VISIBLE);
+            previewVideo.setVisibility(View.INVISIBLE);*/
+            bitmap = BitmapFactory.decodeFile(filePath);
+            previewImage.setImageBitmap(bitmap);
+        }
+        else if(mediaType== MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO) {
+            /*previewImage.setVisibility(View.INVISIBLE);
+            previewVideo.setVisibility(View.VISIBLE);*/
+            previewVideo.setVideoPath(filePath);
+            MediaController controller = new MediaController(this);
+            previewVideo.setMediaController(controller);
+            previewVideo.start();
+        }
     }
 
     private void showComponents(){
-        previewImage.setVisibility(View.VISIBLE);
+        if(mediaType== MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE) {
+            previewImage.setVisibility(View.VISIBLE);
+            previewVideo.setVisibility(View.INVISIBLE);
+        }
+        else if(mediaType== MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO) {
+            previewImage.setVisibility(View.INVISIBLE);
+            previewVideo.setVisibility(View.VISIBLE);
+        }
         tweetMessage.setVisibility(View.VISIBLE);
         confirmTweetButton.setVisibility(View.VISIBLE);
         confirmTweetButton.setOnClickListener(null);
-        confirmTweetButton.setOnClickListener(new ConfirmTweetListener(this, tweetStatus, filePath));
+        confirmTweetButton.setOnClickListener(new ConfirmTweetListener(this, tweetStatus, filePath, mediaType));
     }
 
     private void getConfirmation() {

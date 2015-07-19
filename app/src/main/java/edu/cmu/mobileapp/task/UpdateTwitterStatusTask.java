@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -23,8 +24,10 @@ import twitter4j.conf.ConfigurationBuilder;
 public class UpdateTwitterStatusTask extends AsyncTask<String, String, String> {
     private Activity activity;
     private ProgressDialog progress;
-    public UpdateTwitterStatusTask(Activity activity) {
+    long mediaPath;
+    public UpdateTwitterStatusTask(Activity activity, long mediaPath) {
         this.activity = activity;
+        this.mediaPath = mediaPath;
     }
 
     @Override
@@ -45,30 +48,35 @@ public class UpdateTwitterStatusTask extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        String tweetStatus = params[0];
-        String filePath = params[1];
-        File file = new File(filePath);
-        StatusUpdate update = new StatusUpdate(tweetStatus);
-        update.setMedia(file);
+        if(mediaPath == MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE) {
+            String tweetStatus = params[0];
+            String filePath = params[1];
+            File file = new File(filePath);
+            StatusUpdate update = new StatusUpdate(tweetStatus);
+            update.setMedia(file);
 
-        ConfigurationBuilder builder = new ConfigurationBuilder();
-        builder.setOAuthConsumerKey(AppConstants.TWITTER_CONSUMER_KEY);
-        builder.setOAuthConsumerSecret(AppConstants.TWITTER_CONSUMER_SECRET);
+            ConfigurationBuilder builder = new ConfigurationBuilder();
+            builder.setOAuthConsumerKey(AppConstants.TWITTER_CONSUMER_KEY);
+            builder.setOAuthConsumerSecret(AppConstants.TWITTER_CONSUMER_SECRET);
 
-        SharedPreferences preferences = activity.getSharedPreferences("Pref",0);
-        String accessToken = preferences.getString("ACCESS_TOKEN", "");
-        String accessTokenSecret = preferences.getString("ACCESS_TOKEN_SECRET", "");
+            SharedPreferences preferences = activity.getSharedPreferences("Pref", 0);
+            String accessToken = preferences.getString("ACCESS_TOKEN", "");
+            String accessTokenSecret = preferences.getString("ACCESS_TOKEN_SECRET", "");
 
-        AccessToken token = new AccessToken(accessToken, accessTokenSecret);
-        Twitter twitter = new TwitterFactory(builder.build()).getInstance(token);
+            AccessToken token = new AccessToken(accessToken, accessTokenSecret);
+            Twitter twitter = new TwitterFactory(builder.build()).getInstance(token);
 
-        try {
-            twitter4j.Status response = twitter.updateStatus(update);
-            Log.i("response", response.toString());
-        } catch (TwitterException e) {
-            e.printStackTrace();
-            Log.i("Error Code", e.getErrorCode() + "");
-            Log.i("Error Message",e.getErrorMessage()+"");
+            try {
+                twitter4j.Status response = twitter.updateStatus(update);
+                Log.i("response", response.toString());
+            } catch (TwitterException e) {
+                e.printStackTrace();
+                Log.i("Error Code", e.getErrorCode() + "");
+                Log.i("Error Message", e.getErrorMessage() + "");
+            }
+        }
+        else if(mediaPath == MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO) {
+
         }
         return null;
     }

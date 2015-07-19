@@ -12,6 +12,14 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:visibility="invisible"/>
+    <VideoView
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:id="@+id/tweet_preview_video"
+        android:layout_gravity="center"
+        android:visibility="invisible"
+        android:layout_alignTop="@+id/tweet_preview_image"
+        android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"

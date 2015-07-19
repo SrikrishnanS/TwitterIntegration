@@ -19,12 +19,14 @@ public class ConfirmTweetListener implements View.OnClickListener {
     private final String tweetStatus;
     private AsyncTask<String,String,String> task;
     private Activity activity;
+    private long mediaPath;
 
-    public ConfirmTweetListener(Activity activity, String tweetStatus, String filePath) {
+    public ConfirmTweetListener(Activity activity, String tweetStatus, String filePath, long mediaPath) {
         this.tweetStatus = tweetStatus;
         this.filePath = filePath;
         this.activity = activity;
-        this.task = new UpdateTwitterStatusTask(activity);
+        this.mediaPath = mediaPath;
+        this.task = new UpdateTwitterStatusTask(activity,mediaPath);
     }
 
     @Override
